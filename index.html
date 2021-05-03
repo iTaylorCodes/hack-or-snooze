@@ -37,7 +37,7 @@
 				<a class="nav-link" href="#" id="nav-all">Hack or Snooze</a>
 			</div>
 			<div class="nav-right">
-				<a class="submit-story hidden" href="#">submit</a>
+				<a class="submit-story hidden" id="nav-submit" href="#">submit</a>
 				<a class="nav-link" href="#" id="nav-login">login/signup</a>
 				<a class="nav-link" href="#" id="nav-user-profile"></a>
 				<a class="hidden" id="nav-logout" href="#"><small>(logout)</small></a>
@@ -94,16 +94,17 @@
 			<h4>Add Story</h4>
 			<div class="story-input">
 				<label for="story-title">Title</label>
-				<input id="story-title" autocapitalize="words" />
+				<input id="story-title" autocapitalize="words" required />
 			</div>
 			<div class="story-input">
 				<label for="story-author">Author</label>
-				<input id="story-author" autocapitalize="words" />
+				<input id="story-author" autocapitalize="words" required />
 			</div>
 			<div class="story-input">
 				<label for="story-url">URL</label>
-				<input id="story-url" />
+				<input type="url" id="story-url" required />
 			</div>
+			<button type="submit">Post Story</button>
 		</form>
 
 		<!-- Library JS & our JS -->

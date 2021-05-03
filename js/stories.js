@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // This is the global list of the stories, an instance of StoryList
 let storyList;
@@ -6,10 +6,10 @@ let storyList;
 /** Get and show stories when site first loads. */
 
 async function getAndShowStoriesOnStart() {
-  storyList = await StoryList.getStories();
-  $storiesLoadingMsg.remove();
+	storyList = await StoryList.getStories();
+	$storiesLoadingMsg.remove();
 
-  putStoriesOnPage();
+	putStoriesOnPage();
 }
 
 /**
@@ -20,10 +20,10 @@ async function getAndShowStoriesOnStart() {
  */
 
 function generateStoryMarkup(story) {
-  // console.debug("generateStoryMarkup", story);
+	// console.debug("generateStoryMarkup", story);
 
-  const hostName = story.getHostName();
-  return $(`
+	const hostName = story.getHostName();
+	return $(`
       <li id="${story.storyId}">
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -38,15 +38,44 @@ function generateStoryMarkup(story) {
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
 function putStoriesOnPage() {
-  console.debug("putStoriesOnPage");
+	console.debug('putStoriesOnPage');
 
-  $allStoriesList.empty();
+	$allStoriesList.empty();
 
-  // loop through all of our stories and generate HTML for them
-  for (let story of storyList.stories) {
-    const $story = generateStoryMarkup(story);
-    $allStoriesList.append($story);
-  }
+	// loop through all of our stories and generate HTML for them
+	for (let story of storyList.stories) {
+		const $story = generateStoryMarkup(story);
+		$allStoriesList.append($story);
+	}
 
-  $allStoriesList.show();
+	$allStoriesList.show();
 }
+
+// Handler for submitting new story form
+
+const $submitStoryForm = $('#newstory-form');
+
+async function onNewStorySubmit(evt) {
+	console.debug('onNewStorySubmit');
+	evt.preventDefault();
+
+	// new story form inputs
+	const title = $('#story-title').val();
+	const author = $('#story-author').val();
+	const url = $('#story-url').val();
+
+	const user = currentUser.username;
+
+	const newStoryData = { title, author, url, user };
+
+	// creates the new story and prepends it to story list
+	const newStory = await storyList.addStory(currentUser, newStoryData);
+	const story = generateStoryMarkup(newStory);
+	$allStoriesList.prepend(story);
+
+	// resets page/form
+	$submitStoryForm.slideUp('slow');
+	$submitStoryForm.trigger('reset');
+}
+
+$submitStoryForm.on('submit', onNewStorySubmit);
