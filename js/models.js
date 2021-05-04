@@ -201,15 +201,23 @@ class User {
 
 	// Updates API to add story to user favorites
 
-	async favoriteStory(story) {
+	async addfavoriteStory(story) {
 		const token = this.loginToken;
-		const response = await axios({
+		await axios({
 			method: 'POST',
 			url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
-			data: {
-				token
-			}
+			data: { token }
 		});
 		this.favorites.push(story);
+	}
+
+	async removeFavoriteStory(story) {
+		const token = this.loginToken;
+		await axios({
+			method: 'DELETE',
+			url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+			data: { token }
+		});
+		this.favorites.splice(this.favorites.indexOf(story.storyId), 1);
 	}
 }
