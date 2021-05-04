@@ -66,16 +66,17 @@ async function onNewStorySubmit(evt) {
 
 	const user = currentUser.username;
 
-	const newStoryData = { title, author, url, user };
+	const newStoryObj = { title, author, url, user };
 
 	// creates the new story and prepends it to story list
-	const newStory = await storyList.addStory(currentUser, newStoryData);
+	const newStory = await storyList.addStory(currentUser, newStoryObj);
 	const story = generateStoryMarkup(newStory);
 	$allStoriesList.prepend(story);
 
-	// resets page/form
-	$submitStoryForm.slideUp('slow');
+	// resets and hides form
 	$submitStoryForm.trigger('reset');
+	$submitStoryForm.hide();
+	$allStoriesList.show();
 }
 
 $submitStoryForm.on('submit', onNewStorySubmit);
