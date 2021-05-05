@@ -200,7 +200,7 @@ class User {
 
 	// Updates API to add story to user favorites
 
-	async addfavoriteStory(story) {
+	async addFavoriteStory(story) {
 		const token = this.loginToken;
 		await axios({
 			method: 'POST',
