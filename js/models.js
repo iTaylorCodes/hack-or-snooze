@@ -217,6 +217,10 @@ class User {
 			url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
 			data: { token }
 		});
-		this.favorites.splice(this.favorites.indexOf(story.storyId), 1);
+		this.favorites.filter((s) => s.storyId !== story.storyId);
+	}
+
+	checkFavStatus(story) {
+		return this.favorites.some((s) => s.storyId === story.storyId);
 	}
 }

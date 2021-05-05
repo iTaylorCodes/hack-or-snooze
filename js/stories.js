@@ -9,7 +9,7 @@ async function getAndShowStoriesOnStart() {
 	storyList = await StoryList.getStories();
 	$storiesLoadingMsg.remove();
 
-	putStoriesOnPage();
+	// putStoriesOnPage();
 }
 
 /**
@@ -23,33 +23,62 @@ function generateStoryMarkup(story) {
 	// console.debug("generateStoryMarkup", story);
 
 	const hostName = story.getHostName();
-	return $(`
-      <li id="${story.storyId}">
-        <a href="${story.url}" target="a_blank" class="story-link">
-          ${story.title}
-        </a>
-        <small class="story-hostname">(${hostName})</small>
-        <small class="story-author">by ${story.author}</small>
-        <small class="story-user">posted by ${story.username}</small>
-      </li>
-    `);
+
+	// Checks if there's a logged in user
+	const showStar = Boolean(currentUser);
+
+	// Checks if story is a favorite
+	const isFav = user.checkFavStatus(story);
+
+	// Stars to show depending on if a favorite or not
+	const favStarHTML = '<span class="fav-star">bwiuybni</span>';
+	const nonFavStar = '<span class="non-fav-star">*njvn</span>';
+
+	// Returns story HTML with fav stars if a user is logged in
+
+	console.log(showStar);
+	// if (showStar) {
+	// 	return $(`
+	// 		<li id="${story.storyId}">
+	// 			${nonFavStar}
+	// 			<a href="${story.url}" target="a_blank" class="story-link">
+	// 			${story.title}
+	// 			</a>
+	// 			<small class="story-hostname">(${hostName})</small>
+	// 			<small class="story-author">by ${story.author}</small>
+	// 			<small class="story-user">posted by ${story.username}</small>
+	// 		</li>
+	// 	`);
+	// }
+
+	// // Returns story HTML if no user logged in
+	// return $(`
+	//   <li id="${story.storyId}">
+	//     <a href="${story.url}" target="a_blank" class="story-link">
+	//       ${story.title}
+	//     </a>
+	//     <small class="story-hostname">(${hostName})</small>
+	//     <small class="story-author">by ${story.author}</small>
+	//     <small class="story-user">posted by ${story.username}</small>
+	//   </li>
+	// `);
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
-function putStoriesOnPage() {
-	console.debug('putStoriesOnPage');
+// function putStoriesOnPage() {
+// 	console.debug('putStoriesOnPage');
 
-	$allStoriesList.empty();
+// 	$allStoriesList.empty();
 
-	// loop through all of our stories and generate HTML for them
-	for (let story of storyList.stories) {
-		const $story = generateStoryMarkup(story);
-		$allStoriesList.append($story);
-	}
+// 	// loop through all of our stories and generate HTML for them
+// 	for (let story of storyList.stories) {
+// 		const $story = generateStoryMarkup(story);
+// 		$allStoriesList.append($story);
+// 	}
 
-	$allStoriesList.show();
-}
+// 	$allStoriesList.show();
+// }
 
 // Handler for submitting new story form
 
