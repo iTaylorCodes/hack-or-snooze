@@ -88,6 +88,20 @@ class StoryList {
 
 		return story;
 	}
+
+	// Removes a story from API and story lists
+	async removeStory(user, storyId) {
+		const token = user.loginToken;
+		await axios({
+			url: `${BASE_URL}/stories/${storyId}`,
+			method: 'DELETE',
+			data: { token }
+		});
+		this.stories = this.stories.filter((story) => story.storyId !== storyId);
+
+		user.ownStories = user.ownStories.filter((s) => s.storyId !== storyId);
+		user.favorites = user.favorites.filter((s) => s.storyId !== storyId);
+	}
 }
 
 /******************************************************************************
@@ -199,7 +213,6 @@ class User {
 	}
 
 	// Updates API to add story to user favorites
-
 	async addFavoriteStory(story) {
 		const token = this.loginToken;
 		await axios({
@@ -210,6 +223,7 @@ class User {
 		this.favorites.push(story);
 	}
 
+	// Updates API to remove a user favorite story
 	async removeFavoriteStory(story) {
 		const token = this.loginToken;
 		await axios({
@@ -220,6 +234,7 @@ class User {
 		this.favorites.filter((s) => s.storyId !== story.storyId);
 	}
 
+	// Checks if a story is in users favorites
 	checkFavStatus(story) {
 		return this.favorites.some((s) => s.storyId === story.storyId);
 	}

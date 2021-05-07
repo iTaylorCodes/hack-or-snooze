@@ -35,12 +35,22 @@ function updateNavOnLogin() {
 	$navUserProfile.text(`${currentUser.username}`).show();
 }
 
-// Show add story form when click on "submit"
+// Show add story form when click on "submit story"
 
 function navSubmitClick(evt) {
-	console.debug('submitClick', evt);
+	console.debug('navSubmitClick', evt);
 	hidePageComponents();
 	$('#newstory-form').show();
 }
 
 $('#nav-submit').on('click', navSubmitClick);
+
+// Show user favorite stories only when click on "favorite stories"
+
+function navFavoriteStoriesClick(evt) {
+	console.debug('navFavoriteStoriesClick', evt);
+	hidePageComponents();
+	putFavoriteStoriesOnPage();
+}
+
+$body.on('click', '#nav-favorites', navFavoriteStoriesClick);

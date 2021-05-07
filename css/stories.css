@@ -40,3 +40,7 @@
 .star:hover {
 	cursor: pointer;
 }
+
+.trash:hover {
+	cursor: pointer;
+}

@@ -25,7 +25,7 @@ function generateStoryMarkup(story) {
 	const hostName = story.getHostName();
 
 	// Checks if there's a logged in user
-	const showStar = Boolean(currentUser);
+	const loggedIn = Boolean(currentUser);
 
 	// Checks if story is a favorite
 	const isFav = currentUser.checkFavStatus(story);
@@ -34,10 +34,14 @@ function generateStoryMarkup(story) {
 	const favStarHTML = '<span class="star fav-star">&#9733;</span>';
 	const nonFavStarHTML = '<span class="star non-fav-star">&#9734;</span>';
 
-	// Returns story HTML with fav stars if a user is logged in
-	if (showStar) {
+	// Delete button HTML
+	const trash = '<span class="trash">&#128465;</span>';
+
+	// Returns story HTML with fav stars and trash can if a user is logged in
+	if (loggedIn) {
 		return $(`
 			<li id="${story.storyId}">
+				${trash}
 				${isFav ? favStarHTML : nonFavStarHTML}
 				<a href="${story.url}" target="a_blank" class="story-link">
 				${story.title}
@@ -49,7 +53,7 @@ function generateStoryMarkup(story) {
 		`);
 	}
 
-	// Returns story HTML without fav stars if no user logged in
+	// Returns story HTML without fav stars and trash can if no user logged in
 	return $(`
 	  <li id="${story.storyId}">
 	    <a href="${story.url}" target="a_blank" class="story-link">
@@ -116,7 +120,7 @@ async function toggleStoryFavorite(evt) {
 	const storyId = $parentLi.attr('id');
 	const story = storyList.stories.find((s) => s.storyId === storyId);
 
-	//  Check is the target story is a favorite
+	//  Check if the target story is a favorite
 	if ($target.hasClass('fav-star')) {
 		// If target story is a favorite, unfavorite it and empty star icon
 		await currentUser.removeFavoriteStory(story);
@@ -133,3 +137,30 @@ async function toggleStoryFavorite(evt) {
 }
 
 $storiesLists.on('click', '.star', toggleStoryFavorite);
+
+// Shows the list of favorite stories
+function putFavoriteStoriesOnPage() {
+	console.debug('putFavoriteStoriesOnPage');
+
+	$favoritedStories.empty();
+
+	for (let story of currentUser.favorites) {
+		const $story = generateStoryMarkup(story);
+		$favoritedStories.append($story);
+	}
+	$favoritedStories.show();
+}
+
+// Removes a story from API and the DOM
+async function deleteStory(evt) {
+	console.debug('deleteStory');
+
+	const $closestLi = $(evt.target).closest('li');
+	const storyId = $closestLi.attr('id');
+
+	await storyList.removeStory(currentUser, storyId);
+
+	await putStoriesOnPage();
+}
+
+$storiesLists.on('click', '.trash', deleteStory);
