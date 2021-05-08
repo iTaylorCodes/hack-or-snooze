@@ -151,6 +151,19 @@ function putFavoriteStoriesOnPage() {
 	$favoritedStories.show();
 }
 
+// Shows the list of stories created by the current user
+function putOwnStoriesOnPage() {
+	console.debug('putOwnStoriesOnPage');
+
+	$ownStories.empty();
+
+	for (let story of currentUser.ownStories) {
+		const $story = generateStoryMarkup(story);
+		$ownStories.append($story);
+	}
+	$ownStories.show();
+}
+
 // Removes a story from API and the DOM
 async function deleteStory(evt) {
 	console.debug('deleteStory');
