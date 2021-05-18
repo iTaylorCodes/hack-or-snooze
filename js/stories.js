@@ -27,9 +27,6 @@ function generateStoryMarkup(story) {
 	// Checks if there's a logged in user
 	const loggedIn = Boolean(currentUser);
 
-	// Checks if story is a favorite
-	const isFav = currentUser.checkFavStatus(story);
-
 	// Stars to show depending on if a favorite or not
 	const favStarHTML = '<span class="star fav-star">&#9733;</span>';
 	const nonFavStarHTML = '<span class="star non-fav-star">&#9734;</span>';
@@ -39,6 +36,9 @@ function generateStoryMarkup(story) {
 
 	// Returns story HTML with fav stars and trash can if a user is logged in
 	if (loggedIn) {
+		// Checks if story is a favorite
+		const isFav = currentUser.checkFavStatus(story);
+
 		return $(`
 			<li id="${story.storyId}">
 				${trash}
@@ -175,7 +175,7 @@ async function deleteStory(evt) {
 
 	await storyList.removeStory(currentUser, storyId);
 
-	await putStoriesOnPage();
+	putStoriesOnPage();
 }
 
 $storiesLists.on('click', '.trash', deleteStory);
