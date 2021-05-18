@@ -54,16 +54,18 @@ function generateStoryMarkup(story) {
 	}
 
 	// Returns story HTML without fav stars and trash can if no user logged in
-	return $(`
-	  <li id="${story.storyId}">
-	    <a href="${story.url}" target="a_blank" class="story-link">
-	      ${story.title}
-	    </a>
-	    <small class="story-hostname">(${hostName})</small>
-	    <small class="story-author">by ${story.author}</small>
-	    <small class="story-user">posted by ${story.username}</small>
-	  </li>
-	`);
+	if (!loggedIn) {
+		return $(`
+		<li id="${story.storyId}">
+			<a href="${story.url}" target="a_blank" class="story-link">
+			${story.title}
+			</a>
+			<small class="story-hostname">(${hostName})</small>
+			<small class="story-author">by ${story.author}</small>
+			<small class="story-user">posted by ${story.username}</small>
+		</li>
+		`);
+	}
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */

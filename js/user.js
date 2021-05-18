@@ -25,6 +25,8 @@ async function login(evt) {
 
 	saveUserCredentialsInLocalStorage();
 	updateUIOnUserLogin();
+	hidePageComponents();
+	putStoriesOnPage();
 }
 
 $loginForm.on('submit', login);

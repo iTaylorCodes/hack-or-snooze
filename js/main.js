@@ -14,6 +14,7 @@ const $loginForm = $('#login-form');
 const $signupForm = $('#signup-form');
 const $newStoryForm = $('#newstory-form');
 
+const $navSpacers = $('.nav-spacer');
 const $navLogin = $('#nav-login');
 const $navUserProfile = $('#nav-user-profile');
 const $navLogOut = $('#nav-logout');
