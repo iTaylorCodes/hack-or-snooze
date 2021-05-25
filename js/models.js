@@ -239,7 +239,7 @@ class User {
 		return this.favorites.some((s) => s.storyId === story.storyId);
 	}
 
-	// Checks if a story is in users favorites
+	// Checks if a story was created by user
 	checkOwnStory(story) {
 		return this.ownStories.some((s) => s.storyId === story.storyId);
 	}
