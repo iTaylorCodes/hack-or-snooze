@@ -235,7 +235,12 @@ class User {
 	}
 
 	// Checks if a story is in users favorites
-	checkFavStatus(story) {
+	checkFavoriteStatus(story) {
 		return this.favorites.some((s) => s.storyId === story.storyId);
+	}
+
+	// Checks if a story is in users favorites
+	checkOwnStory(story) {
+		return this.ownStories.some((s) => s.storyId === story.storyId);
 	}
 }

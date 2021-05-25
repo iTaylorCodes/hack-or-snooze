@@ -35,28 +35,11 @@ function generateStoryMarkup(story) {
 	const trash = '<span class="trash">&#128465;</span>';
 
 	// Returns story HTML with fav stars and trash can if a user is logged in
-	if (loggedIn) {
-		// Checks if story is a favorite
-		const isFav = currentUser.checkFavStatus(story);
 
-		return $(`
-			<li id="${story.storyId}">
-				${trash}
-				${isFav ? favStarHTML : nonFavStarHTML}
-				<a href="${story.url}" target="a_blank" class="story-link">
-				${story.title}
-				</a>
-				<small class="story-hostname">(${hostName})</small>
-				<small class="story-author">by ${story.author}</small>
-				<small class="story-user">posted by ${story.username}</small>
-			</li>
-		`);
-	}
-
-	// Returns story HTML without fav stars and trash can if no user logged in
-	if (!loggedIn) {
-		return $(`
+	return $(`
 		<li id="${story.storyId}">
+			${loggedIn ? (currentUser.checkOwnStory(story) ? trash : '') : ''}
+			${loggedIn ? (currentUser.checkFavoriteStatus(story) ? favStarHTML : nonFavStarHTML) : ''}
 			<a href="${story.url}" target="a_blank" class="story-link">
 			${story.title}
 			</a>
@@ -64,8 +47,7 @@ function generateStoryMarkup(story) {
 			<small class="story-author">by ${story.author}</small>
 			<small class="story-user">posted by ${story.username}</small>
 		</li>
-		`);
-	}
+	`);
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
