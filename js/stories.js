@@ -111,6 +111,7 @@ async function toggleStoryFavorite(evt) {
 		$target.toggleClass('fav-star');
 		$target.toggleClass('non-fav-star');
 		$target.html('&#9734;');
+		window.location.reload();
 	} else {
 		// If target story is not a favorite, favorite it and fill star icon
 		await currentUser.addFavoriteStory(story);
@@ -128,9 +129,13 @@ function putFavoriteStoriesOnPage() {
 
 	$favoritedStories.empty();
 
-	for (let story of currentUser.favorites) {
-		const $story = generateStoryMarkup(story);
-		$favoritedStories.append($story);
+	if (currentUser.favorites.length === 0) {
+		$favoritedStories.append('<h5>No favorites added!</h5>');
+	} else {
+		for (let story of currentUser.favorites) {
+			const $story = generateStoryMarkup(story);
+			$favoritedStories.append($story);
+		}
 	}
 	$favoritedStories.show();
 }
@@ -141,9 +146,13 @@ function putOwnStoriesOnPage() {
 
 	$ownStories.empty();
 
-	for (let story of currentUser.ownStories) {
-		const $story = generateStoryMarkup(story);
-		$ownStories.append($story);
+	if (currentUser.ownStories.length === 0) {
+		$ownStories.append('<h5>No stories added by user yet!</h5>');
+	} else {
+		for (let story of currentUser.ownStories) {
+			const $story = generateStoryMarkup(story);
+			$ownStories.append($story);
+		}
 	}
 	$ownStories.show();
 }
